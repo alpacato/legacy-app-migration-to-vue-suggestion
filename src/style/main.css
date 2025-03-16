@@ -1,0 +1,104 @@
+body {
+  font-family: Roboto;
+  background-color: black;
+}
+
+h1 {
+  margin: 0px;
+}
+
+:root {
+  --main-border-radius: 4px;
+  --main-gap-size: 10px;
+}
+
+.todo__container {
+  width: 360px;
+  margin: 100px auto;
+  background: #f7f7f7;
+  padding: var(--main-gap-size);
+  border-radius: var(--main-border-radius);
+}
+
+.todo__new-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--main-gap-size);
+}
+
+.todo__new-item input {
+  flex-grow: 1;
+}
+
+.todo__add-item {
+}
+
+.todo__add-item_urgent:not(:disabled) {
+  color: indianred;
+}
+
+.todo__list {
+  border: 1px solid;
+  border-radius: var(--main-border-radius);
+}
+
+.todo__list.todo__list_empty {
+  display: none;
+}
+
+.todo__item {
+  display: flex;
+  padding-top: var(--main-gap-size);
+  padding-bottom: var(--main-gap-size);
+  border-bottom: 1px solid gray;
+  padding-left: var(--main-gap-size);
+  padding-right: var(--main-gap-size);
+  gap: var(--main-gap-size);
+}
+
+.todo__item:last-child {
+  border-bottom: 0px;
+  display: flex;
+  user-select: none;
+}
+
+.todo__item.todo__item_checked .todo__item-title {
+  text-decoration: line-through;
+}
+
+.todo__item.todo__item_urgent {
+  background-color: pink;
+}
+
+.todo__item-controls {
+  min-width: 20px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.todo__item-controls:hover .fa-trash {
+  color: indianred;
+}
+
+.todo__item-title {
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.todo__item-title:hover {
+  color: gray;
+}
+
+.todo__preview {
+  width: calc(100% - 2px);
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 1px solid;
+  border-radius: var(--main-border-radius);
+}
+
+.todo__preview canvas {
+  width: 100%;
+  height: 200px;
+}
