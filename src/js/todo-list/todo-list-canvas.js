@@ -1,4 +1,4 @@
-import { TodoItemUrgent } from "./todo-item-urgent";
+import { getFirstLetter } from "../../common/utils/string";
 
 export class TodoListCanvas {
   #list = null;
@@ -38,7 +38,8 @@ export class TodoListCanvas {
 
     this.#canvas.addEventListener("click", () => {
       if (this.#overlappedItem) {
-        this.#overlappedItem.toggleCheck();
+        this.#overlappedItem.completed = !this.#overlappedItem.completed;
+        this.update();
       }
     });
   }
@@ -106,10 +107,10 @@ export class TodoListCanvas {
     this.#paths.set(circle, item);
 
     function isUrgent(item) {
-      return item instanceof TodoItemUrgent;
+      return item.urgent;
     }
 
-    if (item.isChecked()) {
+    if (item.completed) {
       this.#context.fillStyle = isUrgent(item) ? "#cd5c5c" : "#000";
       this.#context.fill(circle);
     } else {
@@ -118,7 +119,7 @@ export class TodoListCanvas {
     }
 
     this.#context.font = "12px Roboto";
-    this.#context.fillStyle = item.isChecked() ? "#fff" : "#000";
-    this.#context.fillText(item.getFirstLetter(), center.x - 4, center.y + 4);
+    this.#context.fillStyle = item.completed ? "#fff" : "#000";
+    this.#context.fillText(getFirstLetter(item.title), center.x - 4, center.y + 4);
   }
 }

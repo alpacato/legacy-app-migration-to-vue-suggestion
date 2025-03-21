@@ -1,42 +1,56 @@
-import { TodoItem } from "./todo-item";
-import { TodoItemUrgent } from "./todo-item-urgent";
+import { reactive } from "vue";
+
 import { TodoListCanvas } from "./todo-list-canvas";
 
 export class TodoList {
+  static instances = new Map();
+
+  static getInstance(containerSelector) {
+    const instance = this.instances.get(containerSelector);
+
+    if (!instance) {
+      const newInstance = new TodoList(containerSelector);
+      this.instances.set(containerSelector, newInstance);
+      return newInstance;
+    }
+
+    return instance;
+  }
+
+  #containerSelector = null;
   #containterElement = null;
   #listElement = null;
   #newItemInput = null;
   #canvasContoller = null;
 
-  #items = [
-    new TodoItemUrgent(this, "Talk to Ron"),
-    new TodoItem(this, "Buy new robes"),
-    new TodoItem(this, "Buy new wand"),
-    new TodoItem(this, "Visit Hagrid"),
-    new TodoItem(this, "Go to Potions class"),
-  ];
+  /**
+   * Example of a typescript type definition with JSDoc
+   * @type {import("../../types/todo-list/todo-list").TodoItem[]}
+   */
+  #items = reactive([
+    { title: "Talk to Ron", urgent: true, completed: false },
+    { title: "Buy new robes", urgent: false, completed: false },
+    { title: "Buy new wand", urgent: false, completed: false },
+    { title: "Visit Hagrid", urgent: false, completed: false },
+    { title: "Go to Potions class", urgent: false, completed: false },
+  ]);
 
   constructor(containerSelector) {
-    this.init(containerSelector);
-  }
-
-  getListElement() {
-    return this.#listElement;
+    this.#containerSelector = containerSelector;
   }
 
   getItems() {
     return this.#items;
   }
 
-  init(containerSelector) {
-    this.#containterElement = $(containerSelector);
+  init() {
+    this.#containterElement = $(this.#containerSelector);
     this.#listElement = this.#containterElement.find(".todo__list");
     this.#newItemInput = this.#containterElement.find(".todo__new-item input");
-    this.#canvasContoller = new TodoListCanvas(this, containerSelector + " .todo__preview canvas");
+    this.#canvasContoller = new TodoListCanvas(this, this.#containerSelector + " .todo__preview canvas");
 
     this.registerEvents();
 
-    this.updateList();
     this.updateCanvas();
   }
 
@@ -60,30 +74,18 @@ export class TodoList {
   }
 
   addItem(value, urgent) {
-    const item = urgent ? new TodoItemUrgent(this, value) : new TodoItem(this, value);
-    this.#items.unshift(item);
-    this.updateList();
+    this.#items.unshift({ title: value, urgent, completed: false });
     this.updateCanvas();
   }
 
   removeItem(item) {
     this.#items.splice(this.#items.indexOf(item), 1);
-    this.updateList();
     this.updateCanvas();
   }
 
-  updateList() {
-    this.clearListView();
-
-    for (const item of this.#items) {
-      item.addView();
-    }
-
-    if (this.#items.length > 0) {
-      this.#listElement.removeClass("todo__list_empty");
-    }
-
-    this.#canvasContoller.update();
+  toggleCompleteItem(item) {
+    item.completed = !item.completed;
+    this.updateCanvas();
   }
 
   updateCanvas() {

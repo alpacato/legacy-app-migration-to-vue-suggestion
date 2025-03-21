@@ -2,10 +2,14 @@
 import { onMounted } from "vue";
 
 import { TodoList } from "../js/todo-list/todo-list";
+import TodoItem from "./todo-list/TodoItem.vue";
+
+const listId = "#todo-container";
+const list = TodoList.getInstance(listId);
 
 onMounted(() => {
   // legacy initialization
-  new TodoList("#todo-container");
+  list.init();
 });
 </script>
 
@@ -29,6 +33,10 @@ onMounted(() => {
       <canvas />
     </div>
 
-    <div class="todo__list"></div>
+    <div class="todo__list">
+      <template v-for="item of list.getItems()">
+        <TodoItem :item="item" :list-id="listId" />
+      </template>
+    </div>
   </div>
 </template>
