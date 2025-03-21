@@ -1,14 +1,17 @@
-import { TodoItemUrgent } from "./todo-item-urgent";
-
 export class TodoItem {
   #list = null;
   #title = "";
   #itemElement = null;
   #checked = false;
+  #className = "todo__item";
 
   constructor(list, title) {
     this.#list = list;
     this.#title = title;
+  }
+
+  setClassName(className) {
+    this.#className = className;
   }
 
   getFirstLetter() {
@@ -17,7 +20,7 @@ export class TodoItem {
 
   addView() {
     this.#itemElement = $(
-      `<div class="todo__item ${this.#checked && "todo__item_checked"} ${this.isUrgent() && "todo__item_urgent"}">
+      `<div class="${this.#className} ${this.#checked && "todo__item_checked"}">
           <div class="todo__item-title">${this.#title}</div>
           <div class="todo__item-controls"><i class="fa fa-trash todo__item-controls-remove"></i></div>
        </div>`,
@@ -52,10 +55,5 @@ export class TodoItem {
 
   isChecked() {
     return this.#checked;
-  }
-
-  isUrgent() {
-    // circular dependency here
-    return this instanceof TodoItemUrgent;
   }
 }

@@ -1,3 +1,5 @@
+import { TodoItemUrgent } from "./todo-item-urgent";
+
 export class TodoListCanvas {
   #list = null;
   #canvas = null;
@@ -103,11 +105,15 @@ export class TodoListCanvas {
 
     this.#paths.set(circle, item);
 
+    function isUrgent(item) {
+      return item instanceof TodoItemUrgent;
+    }
+
     if (item.isChecked()) {
-      this.#context.fillStyle = item.isUrgent() ? "#cd5c5c" : "#000";
+      this.#context.fillStyle = isUrgent(item) ? "#cd5c5c" : "#000";
       this.#context.fill(circle);
     } else {
-      this.#context.strokeStyle = item.isUrgent() ? "#cd5c5c" : "#000";
+      this.#context.strokeStyle = isUrgent(item) ? "#cd5c5c" : "#000";
       this.#context.stroke(circle);
     }
 
