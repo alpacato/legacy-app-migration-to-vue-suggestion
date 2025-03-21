@@ -1,4 +1,8 @@
-class TodoList {
+import { TodoItem } from "./todo-item";
+import { TodoItemUrgent } from "./todo-item-urgent";
+import { TodoListCanvas } from "./todo-list-canvas";
+
+export class TodoList {
   #containterElement = null;
   #listElement = null;
   #newItemInput = null;

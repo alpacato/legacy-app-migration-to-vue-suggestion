@@ -1,4 +1,4 @@
-class TodoListCanvas {
+export class TodoListCanvas {
   #list = null;
   #canvas = null;
   #context = null;

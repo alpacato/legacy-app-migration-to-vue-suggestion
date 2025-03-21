@@ -1,4 +1,6 @@
-class TodoItem {
+import { TodoItemUrgent } from "./todo-item-urgent";
+
+export class TodoItem {
   #list = null;
   #title = "";
   #itemElement = null;
