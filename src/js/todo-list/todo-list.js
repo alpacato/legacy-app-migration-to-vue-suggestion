@@ -91,9 +91,4 @@ export class TodoList {
   updateCanvas() {
     this.#canvasContoller.update();
   }
-
-  clearListView() {
-    this.#listElement.html("");
-    this.#listElement.addClass("todo__list_empty");
-  }
 }

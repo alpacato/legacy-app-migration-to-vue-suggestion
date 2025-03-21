@@ -6,6 +6,7 @@ import TodoItem from "./todo-list/TodoItem.vue";
 
 const listId = "#todo-container";
 const list = TodoList.getInstance(listId);
+const listItems = list?.getItems() ?? [];
 
 onMounted(() => {
   // legacy initialization
@@ -33,8 +34,8 @@ onMounted(() => {
       <canvas />
     </div>
 
-    <div class="todo__list">
-      <template v-for="item of list.getItems()">
+    <div class="todo__list" :class="{ todo__list_empty: listItems.length === 0 }">
+      <template v-for="item of listItems">
         <TodoItem :item="item" :list-id="listId" />
       </template>
     </div>
